@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" thread-count="5" parallel="tests">
+  <test thread-count="5" name="TestA" parallel="methods">
+    <classes>
+      <class name="com.grid.demo.WebAppTestsChrome"/>
+    </classes>
+  </test> <!-- Test -->
+  <test thread-count="5" name="Test" parallel="methods">
+    <classes>
+      <class name="com.grid.demo.WebAppTestsFirefox"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
