@@ -1,0 +1,4 @@
+# Created at 2020-11-11T13:54:51.775
+Boot Manifest-JAR contains absolute paths in classpath 'E:\GridDockerDemo\GridOnDocker\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+

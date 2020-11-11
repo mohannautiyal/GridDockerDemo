@@ -2,13 +2,19 @@ package com.grid.demo;
 
 import static org.testng.Assert.assertTrue;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,14 +26,21 @@ public class WebAppTestsChrome {
 	
 	
 ThreadLocal<WebDriver> threaddriver = new ThreadLocal();
+//String hub="http://192.168.99.1:4444/wd/hub";
+String hub="http://192.168.99.100:4444/wd/hub";
 
-	
 	@BeforeMethod
-	public void Setup() {
+	public void Setup() throws MalformedURLException {
 		
-		WebDriverManager.chromedriver().setup();
-		 threaddriver.set(new ChromeDriver());
-		WebDriver driver = threaddriver.get();
+		//WebDriverManager.chromedriver().setup();
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setBrowserName("chrome");
+		cap.setPlatform(Platform.ANY);
+		ChromeOptions copt = new ChromeOptions();
+		copt.merge(cap);
+		
+		 threaddriver.set(new RemoteWebDriver(new URL(hub),cap));
+		 WebDriver driver = threaddriver.get();
 		
 		driver.get("https://opensource-demo.orangehrmlive.com/index.php/auth/login");
 		driver.manage().window().maximize();
@@ -39,7 +52,7 @@ ThreadLocal<WebDriver> threaddriver = new ThreadLocal();
 	
 	@Test
 	public void verifyAppLaunch() {
-	 WebDriver driver = threaddriver.get();
+	WebDriver driver = threaddriver.get();
 
 	 List<WebElement> logoelem=	driver.findElements(By.id("divLogo"));	 
 	 assertTrue(logoelem.size()>0, "Logo not present");
